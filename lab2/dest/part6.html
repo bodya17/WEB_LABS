@@ -1,0 +1,44 @@
+
+<html>
+<head>
+  <style>
+    body {
+      font-family: helvetica;
+    }
+    p {
+      width: 600px;
+    }
+  </style>
+</head>
+<body>
+  <p><strong>Умова завдання: </strong>
+    Ввести  стрічку  довільної  довжини,  яку  трактуватимемо  як  текст,  у  якому  слова відокремлені одним або кількома пробілами (довжина слів, загалом, довільна). Вивести слово найбільшої довжини. Якщо таких слів декілька, вивести найперше з них.
+  </p>
+
+  <input id="text" type="text" placeholder="Введіть текст" size="100">
+  <p>Найдовше слово: <span id="longest_word"></span></p>
+  <script>
+
+    // вибираємо елемент в який будемо писати найдовше слово
+    var longestWord_span = document.getElementById('longest_word');
+    // вибираємо поле для вводу тексту
+    var text_input = document.getElementById('text');
+
+    // додаємо обробник події 'keyup'
+    text_input.addEventListener('keyup', function(e) {
+      longestWord_span.textContent = longestWord(this.value);
+    });
+
+    function longestWord(sentence) {
+      // sentence.trim() - забираємо пробіли спереду стрічки і в кінці
+      //.split(/\s+/) - розбиваємо стрічку на масив слів (розділювач - 1 або більше пробілів)
+      // .sort(...)[0] - сортуємо масив від найдовшого слова до найменшого і биремо
+      // перший елемент масиву (тобто найдовше слово)
+      console.log(sentence.trim().split(/\s+/));
+      return sentence.trim().split(/\s+/).sort(function(a, b) {
+        return b.length - a.length;
+      })[0];
+    }
+  </script>
+</body>
+</html>

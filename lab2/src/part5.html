@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js?config=TeX-AMS_HTML-full"></script>
+  <style>
+    body {
+      font-family: monospace;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    td, th {
+      border-bottom: 1px solid black;
+      padding: 5px;
+      text-align: center;
+    }
+    tr:hover {
+      background-color: gray;
+    }
+    .container {
+      display: flex;
+      width: 100vw;
+      justify-content: center;
+    }
+    .table_wrapper {
+      flex: 1;
+    }
+    #plot {
+      flex: 2;
+    }
+    .table_wrapper > * {
+      margin: 0 auto;
+    }
+    .table_wrapper > table {
+      width: 300px;
+    }
+  </style>
+</head>
+
+<body>
+  //= ../templates/nav.html
+  <div class="container">
+    <div class="table_wrapper">
+      <h2>Табуляція функції</h2>
+      <h3>$$f(x) = arcsin(x+2) + x^2$$</h3>
+      <table id="tabulation">
+        <thead>
+          <tr>
+            <th>X</th>
+            <th>Y</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+    <div id="plot"></div>
+  </div>
+  <script>
+    function addRow(x, y) {
+      // select tbody
+      var tbody = document.querySelector('#tabulation > tbody');
+      var row = document.createElement('tr');
+      var x_td = document.createElement('td');
+      var y_td = document.createElement('td');
+      x_td.innerText = x;
+      y_td.innerText = y;
+      row.appendChild(x_td);
+      row.appendChild(y_td);
+      tbody.appendChild(row);
+    }
+
+    var a = -2.5;
+    var b = -1;
+    var n = 10;
+    var h = (b - a) / n;
+    function f(x) {
+      return Math.asin(x + 2) + Math.pow(x, 2);
+    }
+
+    var x_points = [],
+        y_points = [];
+    for (var i = a; i <= b; i += h) {
+      x_points.push(i);
+      y_points.push(f(i));
+      addRow(i.toFixed(3), f(i).toFixed(3))
+    }
+
+    function plot(f, a, b) {
+      let x = [],
+          y = [],
+          h = (b - a) / 1000;
+      for (let i = a; i <= b; i += h) {
+        x.push(i);
+        y.push(f(i))
+      }
+      console.log(x);
+      console.log(y);
+      Plotly.newPlot('plot', [{
+        x: x,
+        y: y
+      }, {
+        x: x_points,
+        y: y_points,
+        mode: 'markers'
+      }]);
+    }
+
+    plot(f, a, b)
+  </script>
+</body>
+</html>
